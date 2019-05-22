@@ -1,4 +1,4 @@
-# maven-project
+# order-system
 order-system project from MuleSoft's advanced development class
 ## How to run the project
 1. Add the remote repository: `git remote add origin
