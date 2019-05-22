@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -8,7 +8,8 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd">
+http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
 	<http:listener-config name="HTTP_Listener_Configuration"
 		host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration" />
 	<ws:consumer-config name="orderSoapService"
@@ -20,6 +21,7 @@ http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/cu
 			path="/orders" allowedMethods="GET" doc:name="HTTP" />
         <flow-ref name="retrieveOrders" doc:name="retrieveOrders"/>
         <flow-ref name="processOrders" doc:name="processOrders"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
 	</flow>
 	<flow name="processOrders">
 		<set-variable variableName="orders" value="#[message.payload]"
@@ -35,7 +37,7 @@ http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/cu
     	filter $.'location' == 'domestic'
 }]]></dw:set-payload>
 		</dw:transform-message>
-		<logger message="*** End of processOrders: #[flowVars.orders] ***"
+		<logger message="*** End of processOrders ***"
 			level="INFO" doc:name="Logger" />
 	</flow>
 	<sub-flow name="retrieveOrders">
