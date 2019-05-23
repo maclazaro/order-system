@@ -22,6 +22,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
         <flow-ref name="retrieveOrders" doc:name="retrieveOrders"/>
         <flow-ref name="processOrders" doc:name="processOrders"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
+        <logger message="************ END OF orders ************" level="INFO" doc:name="Logger"/>
 	</flow>
 	<flow name="processOrders">
 		<set-variable variableName="orders" value="#[message.payload]"
@@ -37,7 +38,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
     	filter $.'location' == 'domestic'
 }]]></dw:set-payload>
 		</dw:transform-message>
-		<logger message="*** End of processOrders ***"
+		<logger message="************ END OF processOrders ************"
 			level="INFO" doc:name="Logger" />
 	</flow>
 	<sub-flow name="retrieveOrders">
@@ -65,7 +66,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 ---
 payload.ns0#provisionOrderResponse.*return]]></dw:set-payload>
 		</dw:transform-message>
-		<logger message="*** End of retrieveOrders ***" level="INFO"
+		<logger message="************ END OF retrieveOrders ************" level="INFO"
 			doc:name="Logger" />
 	</sub-flow>
 </mule>
